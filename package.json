@@ -1,0 +1,27 @@
+{
+  "scripts": {
+    "install": "npm install"
+  },
+  "dependencies": {
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-pose": "^3.3.3"
+  },
+  "devDependencies": {
+    "webpack": "^4.8.3"
+  },
+  "name": "landing_likhachev",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/catchyn/dictionary_bic.git"
+  },
+  "author": "alikhachev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/catchyn/dictionary_bic/issues"
+  },
+  "homepage": "https://github.com/catchyn/dictionary_bic#readme",
+  "description": ""
+}
