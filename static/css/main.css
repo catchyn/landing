@@ -23,3 +23,7 @@ body input:required:valid,
 body textarea:required:valid {
 	
 }
+
+body {
+	background-color: #a75d43;
+}

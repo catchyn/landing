@@ -1,21 +1,42 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
-    devtool: 'source-map',
-    mode: 'production',
-    entry: ['babel-polyfill', './static/js/app.tsx'],
-    module: {
-        rules: [{
-            test: /.tsx?$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/,
-            options: {
-                presets: ['env', 'react']
-            }
+  entry: './static/js/app.tsx',
+  mode: "development",
+  devtool: 'inline-source-map',
+  // stats: 'verbose',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
+      { 
+        enforce: "pre", 
+        test: /\.js$/, 
+        loader: "source-map-loader"
+      },
+      {
+        test: /\.less$/,
+        use: [{
+          loader: 'style-loader'
+        }, {
+          loader: 'css-loader', options: {
+            sourceMap: true
+          }
+        }, {
+          loader: 'less-loader', options: {
+            sourceMap: true
+          }
         }]
-    },
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'build/js')
-    }
+      }]
+  },
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js', '.less' ]
+  },
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'static/build/')
+  }
 };
