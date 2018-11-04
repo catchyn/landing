@@ -35,6 +35,15 @@ module.exports = {
             sourceMap: true
           }
         }]
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        include: path.resolve(__dirname, "./static/img"),
+        loader: 'url-loader'
+      },
+      {
+        test: /\.(ttf|eot|woff|woff2)$/,
+        loader: 'file-loader'
       }]
   },
   resolve: {
