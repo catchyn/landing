@@ -4,14 +4,14 @@ import React = require("react");
 import { bind } from "decko";
 
 interface JelleProps {
-	width: number;
+  width: number;
   extraClass?: string;
 }
 
 interface JelleState {}
 
 export class Jelle extends React.Component<JelleProps, JelleState> {
-	public canvas: HTMLCanvasElement;
+  public canvas: HTMLCanvasElement;
   private _ctx: CanvasRenderingContext2D;
   private _balls: Ball[];
   private _pos: Mouse;
@@ -24,25 +24,26 @@ export class Jelle extends React.Component<JelleProps, JelleState> {
   }
 
   componentDidMount() {
-    this._generateBalls();
-		this.canvas = document.getElementById("drawOnMe") as HTMLCanvasElement;
+    this._generateBalls(this._getDotsCount(this.props.width));
+    this.canvas = document.getElementById("drawOnMe") as HTMLCanvasElement;
     this._ctx = this.canvas.getContext("2d");
     this._pos = new Mouse(this.canvas, "scrollPage");
-    // this._mouse = new Ball(0, 0, 60, "rgba(255,255,255,.0)");
+    // this._mouse = new Ball(0, 0, 60, "green");
     this._render();
-	}
-	
-	componentDidUpdate(prevProps: JelleProps, prevState: JelleState) {
-		if (prevProps.width !== this.props.width) {
-			this._correctBallsXPos(this.props.width, prevProps.width);
-		}
-	}
+  }
 
-	private _correctBallsXPos(width: number, prevWidth: number) {
-		this._balls.forEach(ball => {
-			ball.setOriginalX(ball.originalX * width / prevWidth);
-		});
-	}
+  componentDidUpdate(prevProps: JelleProps, prevState: JelleState) {
+    if (prevProps.width !== this.props.width) {
+      this._evenlyBalls(this._getDotsCount(this.props.width));
+      this._correctBallsXPos(this.props.width, prevProps.width);
+    }
+  }
+
+  private _correctBallsXPos(width: number, prevWidth: number) {
+    this._balls.forEach(ball => {
+      ball.setOriginalX((ball.originalX * width) / prevWidth);
+    });
+  }
 
   render() {
     const { extraClass, width } = this.props;
@@ -53,17 +54,35 @@ export class Jelle extends React.Component<JelleProps, JelleState> {
     );
   }
 
-  private _generateBalls() {
-		const {width} = this.props;
-		var num = width;
+  @bind
+  private _getDotsCount(width: number) {
+    return width * 1.4;
+  }
+
+  @bind
+  private _generateBalls(num: number) {
+    const { width } = this.props;
     for (var i = 0; i < num; i++) {
+      var k = Math.random();
       this._balls.push(
         new Ball(
           Math.random() * width,
-					Math.random() * 450,
-					Math.ceil(Math.random() * 15) / 10
+          k * k * 450,
+          Math.ceil(Math.random() * 12) / 10
         )
       );
+    }
+  }
+
+  @bind
+  private _evenlyBalls(num: number) {
+    if (this._balls && num > this._balls.length) {
+      const numDots = num - this._balls.length;
+      this._generateBalls(numDots);
+    }
+
+    if (this._balls && num < this._balls.length) {
+      this._balls = this._balls.slice(0, num);
     }
   }
 
