@@ -28,7 +28,7 @@ export class Jelle extends React.Component<JelleProps, JelleState> {
 		this.canvas = document.getElementById("drawOnMe") as HTMLCanvasElement;
     this._ctx = this.canvas.getContext("2d");
     this._pos = new Mouse(this.canvas, "scrollPage");
-    // this._mouse = new Ball(0, 0, 60, "green");
+    // this._mouse = new Ball(0, 0, 60, "rgba(255,255,255,.0)");
     this._render();
 	}
 	
@@ -55,12 +55,13 @@ export class Jelle extends React.Component<JelleProps, JelleState> {
 
   private _generateBalls() {
 		const {width} = this.props;
-		var num = width * 2 / 3;
+		var num = width;
     for (var i = 0; i < num; i++) {
       this._balls.push(
         new Ball(
           Math.random() * width,
-          Math.random() * 450
+					Math.random() * 450,
+					Math.ceil(Math.random() * 15) / 10
         )
       );
     }
